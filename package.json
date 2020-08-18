@@ -1,0 +1,7 @@
+{
+  "name": "api-clean-node",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Victor Freitas <victornobrega1980@gmail.com>",
+  "license": "MIT"
+}
