@@ -5,7 +5,7 @@ import {
   HttpRequest,
   HttpResponse,
   AddAccount,
-} from './signupProtocols';
+} from './signup-protocols';
 import { InvalidParamError, MissingParamError } from '../../error';
 
 export class SignupController implements Controller {
