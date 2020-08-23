@@ -1,4 +1,4 @@
-import { badResquest, serverError } from '../../helpers/http-helpers';
+import { badResquest, serverError, ok } from '../../helpers/http-helpers';
 import {
   EmailValidator,
   Controller,
@@ -47,10 +47,7 @@ export class SignupController implements Controller {
         password,
       });
 
-      return {
-        statusCode: 200,
-        body: account,
-      };
+      return ok(account);
     } catch (error) {
       return serverError();
     }
