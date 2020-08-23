@@ -215,4 +215,24 @@ describe('Signup Controller', () => {
       password: 'any_password',
     });
   });
+
+  test('Should return 200 if data correct is provider ', () => {
+    const { sut } = makeSut();
+    const httpRequest = {
+      body: {
+        name: 'valid_name',
+        email: 'valid@mail.com',
+        password: 'valid_password',
+        passwordConfirmation: 'valid_password',
+      },
+    };
+    const httpResponse = sut.handle(httpRequest);
+    expect(httpResponse.statusCode).toBe(200);
+    expect(httpResponse.body).toEqual({
+      id: 'valid_id',
+      name: 'valid_name',
+      email: 'valid@mail.com',
+      password: 'valid_password',
+    });
+  });
 });
