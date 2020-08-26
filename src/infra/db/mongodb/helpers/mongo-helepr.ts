@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, Collection } from 'mongodb';
 
 export const MongoHelpepr = {
   client: null as MongoClient,
@@ -12,5 +12,9 @@ export const MongoHelpepr = {
 
   async disconnect() {
     await this.client.close();
+  },
+
+  getCollection(name: string): Collection {
+    return this.client.db().collection(name);
   },
 };
