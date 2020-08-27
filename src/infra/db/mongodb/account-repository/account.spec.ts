@@ -10,6 +10,11 @@ describe('Account Mongo Repository', () => {
     await MongoHelpepr.disconnect();
   });
 
+  beforeEach(async () => {
+    const mongoCollections = MongoHelpepr.getCollection('accounts');
+    await mongoCollections.deleteMany({}); // delete datas
+  });
+
   const makeSut = (): AccountMongoRepository => {
     return new AccountMongoRepository();
   };
