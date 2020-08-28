@@ -1,17 +1,17 @@
-import { MongoHelpepr } from '../helpers/mongo-helepr';
+import { MongoHelper } from '../helpers/mongo-helper';
 import { AccountMongoRepository } from './account';
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
-    await MongoHelpepr.connect(process.env.MONGO_URL);
+    await MongoHelper.connect(process.env.MONGO_URL);
   });
 
   afterAll(async () => {
-    await MongoHelpepr.disconnect();
+    await MongoHelper.disconnect();
   });
 
   beforeEach(async () => {
-    const mongoCollections = MongoHelpepr.getCollection('accounts');
+    const mongoCollections = MongoHelper.getCollection('accounts');
     await mongoCollections.deleteMany({}); // delete datas
   });
 
