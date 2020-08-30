@@ -49,7 +49,7 @@ export class SignupController implements Controller {
 
       return ok(account);
     } catch (error) {
-      return serverError();
+      return serverError(error);
     }
   }
 }
