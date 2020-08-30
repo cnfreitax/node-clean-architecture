@@ -4,11 +4,24 @@ import {
   HttpRequest,
   HttpResponse,
 } from '../../presentation/protocols';
+import { serverError } from '../../presentation/helpers/http-helpers';
+import { LogErrorRepository } from '../../data/protocols/log-error-repository';
 
 interface SutType {
   sut: LogControllerDecorator;
   controllerStub: Controller;
+  logErrorRepositoryStub: LogErrorRepository;
 }
+
+const makeLogErrorRepository = (): LogErrorRepository => {
+  class LogErrorRepositoryStub implements LogErrorRepository {
+    async log(stack: string): Promise<void> {
+      return new Promise(resolve => resolve());
+    }
+  }
+
+  return new LogErrorRepositoryStub();
+};
 
 const makeController = (): any => {
   class ControllerStub implements Controller {
@@ -27,10 +40,15 @@ const makeController = (): any => {
 
 const makeSut = (): SutType => {
   const controllerStub = makeController();
-  const sut = new LogControllerDecorator(controllerStub);
-  return {
+  const logErrorRepositoryStub = makeLogErrorRepository();
+  const sut = new LogControllerDecorator(
     controllerStub,
+    logErrorRepositoryStub,
+  );
+  return {
     sut,
+    controllerStub,
+    logErrorRepositoryStub,
   };
 };
 
@@ -67,5 +85,26 @@ describe('LogController Decorator', () => {
         name: 'any_name',
       },
     });
+  });
+
+  test('Should call logEWrrorRepository with correct error if controller returns a server error', async () => {
+    const { sut, controllerStub, logErrorRepositoryStub } = makeSut();
+    const fakeError = new Error();
+    fakeError.stack = 'any_stack';
+    const error = serverError(fakeError);
+    const logSpy = jest.spyOn(logErrorRepositoryStub, 'log');
+    jest
+      .spyOn(controllerStub, 'handle')
+      .mockReturnValueOnce(new Promise(resolve => resolve(error)));
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any@mail.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+      },
+    };
+    await sut.handle(httpRequest);
+    expect(logSpy).toHaveBeenCalledWith('any_stack');
   });
 });
