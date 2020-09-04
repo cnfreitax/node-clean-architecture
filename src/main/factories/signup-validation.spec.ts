@@ -2,6 +2,7 @@ import { makeSignUpValidation } from './signup-validation';
 import { ValidationComposite } from '../../presentation/helpers/validators/validation-composite';
 import { RequiredFieldValidiation } from '../../presentation/helpers/validators/required-field-validation';
 import { Validation } from '../../presentation/helpers/validators/validation';
+import { CompareFieldsValidiator } from '../../presentation/helpers/validators/compare-fields-validiator';
 
 jest.mock('../../presentation/helpers/validators/validation-composite');
 
@@ -12,6 +13,9 @@ describe('SignUpValidation Factiorie', () => {
     for (const field of ['name', 'email', 'password', 'passwordConfirmation']) {
       validations.push(new RequiredFieldValidiation(field));
     }
+    validations.push(
+      new CompareFieldsValidiator('password', 'passwordConfirmation'),
+    );
     expect(ValidationComposite).toHaveBeenLastCalledWith(validations);
   });
 });
