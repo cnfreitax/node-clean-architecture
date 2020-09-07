@@ -9,16 +9,16 @@ import {
 
 export class SignupController implements Controller {
   private readonly addAccount: AddAccount;
-  private readonly validaton: Validation;
+  private readonly validation: Validation;
 
-  constructor(addAccount: AddAccount, validaton: Validation) {
+  constructor(addAccount: AddAccount, validation: Validation) {
     this.addAccount = addAccount;
-    this.validaton = validaton;
+    this.validation = validation;
   }
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validaton.validate(httpRequest.body);
+      const error = this.validation.validate(httpRequest.body);
       if (error) {
         return badResquest(error);
       }
