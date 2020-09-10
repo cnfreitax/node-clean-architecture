@@ -90,6 +90,7 @@ describe('DbAuthentication UseCase', () => {
     expect(hashSpy).toHaveBeenCalledWith('any_password', 'hashed_password');
   });
 
+  // quando o método for assincrono, no mock, precisa retornar uma new Promise
   test('Should throws if HashComparer throws', async () => {
     const { sut, hashComparerStub } = makeSut();
     jest
@@ -99,5 +100,14 @@ describe('DbAuthentication UseCase', () => {
       );
     const promise = sut.auth(fakeAuthentication());
     await expect(promise).rejects.toThrow();
+  });
+
+  test('(Should return null if HashCompare returns false)', async () => {
+    const { sut, hashComparerStub } = makeSut();
+    jest
+      .spyOn(hashComparerStub, 'compare')
+      .mockReturnValueOnce(new Promise(resolve => resolve(false)));
+    const accessToken = await sut.auth(fakeAuthentication());
+    expect(accessToken).toBeNull();
   });
 });
