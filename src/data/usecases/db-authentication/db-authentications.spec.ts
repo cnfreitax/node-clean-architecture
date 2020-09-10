@@ -7,7 +7,7 @@ import { HashComparer } from '../../protocols/criptography/hash-comparer';
 interface SutTypes {
   sut: DbAuthentication;
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository;
-  hashCompareStub: HashComparer;
+  hashComparerStub: HashComparer;
 }
 
 const makeFakeAccount = (): AccountModel => ({
@@ -28,12 +28,12 @@ const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
 };
 
 const makeHashCompare = (): HashComparer => {
-  class HashCompareStub implements HashComparer {
+  class HashComparerStub implements HashComparer {
     async compare(value: string, hash: string): Promise<boolean> {
       return new Promise(resolve => resolve(true));
     }
   }
-  return new HashCompareStub();
+  return new HashComparerStub();
 };
 
 const fakeAuthentication = (): AuthenticationModel => ({
@@ -43,15 +43,15 @@ const fakeAuthentication = (): AuthenticationModel => ({
 
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository();
-  const hashCompareStub = makeHashCompare();
+  const hashComparerStub = makeHashCompare();
   const sut = new DbAuthentication(
     loadAccountByEmailRepositoryStub,
-    hashCompareStub,
+    hashComparerStub,
   );
   return {
     sut,
     loadAccountByEmailRepositoryStub,
-    hashCompareStub,
+    hashComparerStub,
   };
 };
 
@@ -84,9 +84,20 @@ describe('DbAuthentication UseCase', () => {
   });
 
   test('Should call HashCompare with correct values', async () => {
-    const { sut, hashCompareStub } = makeSut();
-    const hashSpy = jest.spyOn(hashCompareStub, 'compare');
+    const { sut, hashComparerStub } = makeSut();
+    const hashSpy = jest.spyOn(hashComparerStub, 'compare');
     await sut.auth(fakeAuthentication());
     expect(hashSpy).toHaveBeenCalledWith('any_password', 'hashed_password');
+  });
+
+  test('Should throws if HashComparer throws', async () => {
+    const { sut, hashComparerStub } = makeSut();
+    jest
+      .spyOn(hashComparerStub, 'compare')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
+    const promise = sut.auth(fakeAuthentication());
+    await expect(promise).rejects.toThrow();
   });
 });
