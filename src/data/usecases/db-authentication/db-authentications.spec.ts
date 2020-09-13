@@ -32,7 +32,7 @@ const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
 const makeTokenGenerator = (): TokenGenerator => {
   class TokenGeneratorStub implements TokenGenerator {
     async generate(id: string): Promise<string> {
-      return new Promise(resolve => resolve());
+      return new Promise(resolve => resolve('any_token'));
     }
   }
   return new TokenGeneratorStub();
@@ -141,5 +141,11 @@ describe('DbAuthentication UseCase', () => {
       );
     const promise = sut.auth(fakeAuthentication());
     await expect(promise).rejects.toThrow();
+  });
+
+  test('Should call TokenGenerator with correct id', async () => {
+    const { sut } = makeSut();
+    const accessToken = await sut.auth(fakeAuthentication());
+    expect(accessToken).toBe('any_token');
   });
 });
