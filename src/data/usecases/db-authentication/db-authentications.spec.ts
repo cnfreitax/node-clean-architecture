@@ -1,10 +1,12 @@
-import { AccountModel } from '../../../domain/models/account';
-import { LoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository';
 import { DbAuthentication } from './db-authentication';
-import { AuthenticationModel } from '../../../domain/usecases/authentication';
-import { HashComparer } from '../../protocols/criptography/hash-comparer';
-import { TokenGenerator } from '../../protocols/criptography/token-generator';
-import { UpdateAccessTokenRepository } from '../../protocols/db/update-access-token-repository';
+import {
+  UpdateAccessTokenRepository,
+  TokenGenerator,
+  HashComparer,
+  AuthenticationModel,
+  LoadAccountByEmailRepository,
+  AccountModel,
+} from './db-authentication-protocols';
 
 interface SutTypes {
   sut: DbAuthentication;
@@ -168,5 +170,16 @@ describe('DbAuthentication UseCase', () => {
     const updateSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'update');
     await sut.auth(fakeAuthentication());
     expect(updateSpy).toHaveBeenCalledWith('any_id', 'any_token');
+  });
+
+  test('Should return throws if UpdateAccessTokenRepository return throws', async () => {
+    const { sut, updateAccessTokenRepositoryStub } = makeSut();
+    jest
+      .spyOn(updateAccessTokenRepositoryStub, 'update')
+      .mockResolvedValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
+    const promise = sut.auth(fakeAuthentication());
+    await expect(promise).rejects.toThrow();
   });
 });
