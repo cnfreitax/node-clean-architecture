@@ -35,6 +35,16 @@ describe('Login Routes', () => {
   });
 
   describe('POST/login', () => {
+    test('Should return 401 on login fail', async () => {
+      await request(app)
+        .post('/api/login')
+        .send({
+          email: 'any@mail.com',
+          password: '123',
+        })
+        .expect(401);
+    });
+
     test('Should return 200 on login success', async () => {
       const password = await hash('123', 12);
       await mongoCollections.insertOne({
