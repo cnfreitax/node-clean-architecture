@@ -12,7 +12,7 @@ services:
     container_name: api-container
     build: .
     image: clean-node-api
-    restar: always
+    restart: always
     volumes:
       - ./dist:/usr/src/clean-node-api/dist
     command: yarn start
