@@ -7,15 +7,15 @@ services:
     volumes:
       - ./data:/data/db
     ports:
-      - "25017:25017"
+      - "27017:27017"
   api:
     container_name: api-container
     build: .
     image: clean-node-api
     restart: always
+    command: yarn start
     volumes:
       - ./dist:/usr/src/clean-node-api/dist
-    command: yarn start
     ports:
       - "5050:5050"
     links:
