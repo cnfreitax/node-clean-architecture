@@ -5,6 +5,8 @@ import {
   AddAccountModel,
   AccountModel,
   Validation,
+  Authentication,
+  AuthenticationModel,
 } from './signup-controller-protocols';
 import { HttpRequest } from '../../protocols';
 import { ok, serverError, badResquest } from '../../helpers/http/http-helpers';
@@ -12,6 +14,7 @@ import { ok, serverError, badResquest } from '../../helpers/http/http-helpers';
 interface SutTypes {
   sut: SignupController;
   addAccountStub: AddAccount;
+  authenticationStub: Authentication;
   validationStub: Validation;
 }
 
@@ -23,6 +26,15 @@ const fakeHttpRequest = (): HttpRequest => ({
     passwordConfirmation: 'any_password',
   },
 });
+
+const makeAuthentication = (): Authentication => {
+  class AuthenticationStub implements Authentication {
+    async auth(authentication: AuthenticationModel): Promise<string> {
+      return new Promise(resolve => resolve('any_token'));
+    }
+  }
+  return new AuthenticationStub();
+};
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -53,13 +65,18 @@ const makeAccount = (): AddAccount => {
 const makeSut = (): SutTypes => {
   const addAccountStub = makeAccount();
   const validationStub = makeValidation();
-  const sut = new SignupController(addAccountStub, validationStub);
+  const authenticationStub = makeAuthentication();
+  const sut = new SignupController(
+    addAccountStub,
+    validationStub,
+    authenticationStub,
+  );
 
   return {
     sut,
-
-    addAccountStub,
     validationStub,
+    addAccountStub,
+    authenticationStub,
   };
 };
 
@@ -107,5 +124,15 @@ describe('Signup Controller', () => {
     expect(httpResponse).toEqual(
       badResquest(new MissingParamError('any_field')),
     );
+  });
+
+  test('Should call Authentication with correct values', async () => {
+    const { sut, authenticationStub } = makeSut();
+    const authSpy = jest.spyOn(authenticationStub, 'auth');
+    await sut.handle(fakeHttpRequest());
+    expect(authSpy).toHaveBeenCalledWith({
+      email: 'any_email@mail.com',
+      password: 'any_password',
+    });
   });
 });
