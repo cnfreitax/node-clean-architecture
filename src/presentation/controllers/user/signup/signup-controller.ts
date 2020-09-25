@@ -1,10 +1,10 @@
-import { EmailInUseError } from '../../error';
+import { EmailInUseError } from '../../../error';
 import {
   badResquest,
   serverError,
   ok,
   forbidden,
-} from '../../helpers/http/http-helpers';
+} from '../../../helpers/http/http-helpers';
 import { Authentication } from '../login/login-controller-protocols';
 import {
   Controller,
