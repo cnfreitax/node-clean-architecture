@@ -35,17 +35,17 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "build": "rimraf dist && tsc",
-    "start": "node dist/main/server.js",
-    "up": "yarn build && docker-compose up",
-    "dev": "sucrase-node src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --forceExit",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "yarn test -- --watch -c jest-unit-config.js",
     "test:integration": "yarn test -- --watch -c jest-integration-config.js",
     "test:staged": "yarn test -- --findRelatedTests",
     "test:ci": "yarn test -- --coverage",
-    "jest:clean": "jest --clearCache"
+    "jest:clean": "jest --clearCache",
+    "build": "rimraf dist && tsc",
+    "start": "node dist/main/server.js",
+    "up": "yarn build && docker-compose up",
+    "dev": "sucrase-node src/main/server.ts"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
