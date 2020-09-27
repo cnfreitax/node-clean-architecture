@@ -62,8 +62,8 @@ describe('LoadAccountByToken Usecase', () => {
     jest
       .spyOn(decrypterStub, 'decrypt')
       .mockReturnValueOnce(new Promise(resolve => resolve(null)));
-    const decrypterResponse = await sut.load('encrypt_value', 'any_role');
-    expect(decrypterResponse).toBeNull();
+    const account = await sut.load('encrypt_value', 'any_role');
+    expect(account).toBeNull();
   });
 
   test('Should call LoadAccountByTokenRepository with correct value', async () => {
@@ -74,5 +74,14 @@ describe('LoadAccountByToken Usecase', () => {
     );
     await sut.load('encrypt_value', 'any_role');
     expect(decrypterSpy).toHaveBeenCalledWith('encrypt_value', 'any_role');
+  });
+
+  test('Should return null if LoadAccountByTokenRepository return null', async () => {
+    const { sut, loadAccountByTokenRepositoryStub } = makeSut();
+    jest
+      .spyOn(loadAccountByTokenRepositoryStub, 'loadByToken')
+      .mockReturnValueOnce(new Promise(resolve => resolve(null)));
+    const account = await sut.load('encrypt_value', 'any_role');
+    expect(account).toBeNull();
   });
 });
