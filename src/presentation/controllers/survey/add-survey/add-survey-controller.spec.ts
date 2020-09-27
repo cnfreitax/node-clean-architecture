@@ -10,10 +10,10 @@ import { badResquest, serverError } from '../../../helpers/http/http-helpers';
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     question: 'any_question',
-    answer: [
+    answers: [
       {
         image: 'any_image',
-        question: 'any_question',
+        answer: 'any_question',
       },
     ],
   },

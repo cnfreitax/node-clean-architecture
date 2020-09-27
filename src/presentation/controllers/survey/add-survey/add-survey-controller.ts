@@ -24,8 +24,8 @@ export class AddSurveyController implements Controller {
         return badResquest(error);
       }
 
-      const { question, answer } = httpRequest.body;
-      await this.addSurvey.add({ question, answer });
+      const { question, answers } = httpRequest.body;
+      await this.addSurvey.add({ question, answers });
       return noContent();
     } catch (err) {
       return serverError(err);
