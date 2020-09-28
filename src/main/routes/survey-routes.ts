@@ -5,6 +5,6 @@ import { maekAddSurveyController } from '../factories/controllers/survey/add-sur
 import { maekAuthMiddleware } from '../factories/middleware/auth-middleware-factory';
 
 export default (router: Router): void => {
-  const adminAuth = adapterMiddleware(maekAuthMiddleware());
+  const adminAuth = adapterMiddleware(maekAuthMiddleware('admin'));
   router.post('/surveys', adminAuth, adapterRouter(maekAddSurveyController()));
 };
