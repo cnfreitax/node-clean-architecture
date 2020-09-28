@@ -90,4 +90,26 @@ describe('LoadAccountByToken Usecase', () => {
     const account = await sut.load('encrypt_value', 'any_role');
     expect(account).toEqual(fakeAccount());
   });
+
+  test('Should throws if  LoadAccountByTokenRepository throws', async () => {
+    const { sut, loadAccountByTokenRepositoryStub } = makeSut();
+    jest
+      .spyOn(loadAccountByTokenRepositoryStub, 'loadByToken')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
+    const promise = sut.load('encrypt_value', 'any_role');
+    await expect(promise).rejects.toThrow();
+  });
+
+  test('Should throws if  Decrypter throws', async () => {
+    const { sut, decrypterStub } = makeSut();
+    jest
+      .spyOn(decrypterStub, 'decrypt')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
+    const promise = sut.load('encrypt_value', 'any_role');
+    await expect(promise).rejects.toThrow();
+  });
 });
