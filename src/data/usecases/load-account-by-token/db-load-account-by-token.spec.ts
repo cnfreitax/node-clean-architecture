@@ -84,4 +84,10 @@ describe('LoadAccountByToken Usecase', () => {
     const account = await sut.load('encrypt_value', 'any_role');
     expect(account).toBeNull();
   });
+
+  test('Should return an account on success', async () => {
+    const { sut } = makeSut();
+    const account = await sut.load('encrypt_value', 'any_role');
+    expect(account).toEqual(fakeAccount());
+  });
 });
