@@ -1,5 +1,6 @@
 import { AddSurveyRepository, AddSurveyModel } from './add-survey-protocols';
 import { DbAddSurvey } from './db-add-Survery';
+import Mockdate from 'mockdate';
 
 const makeSurveyData = (): AddSurveyModel => ({
   question: 'any_question',
@@ -9,6 +10,7 @@ const makeSurveyData = (): AddSurveyModel => ({
       answer: 'any_answer',
     },
   ],
+  date: new Date(),
 });
 
 interface SutTypes {
@@ -35,6 +37,13 @@ const makeSut = (): SutTypes => {
 };
 
 describe('DbAddSurvey', () => {
+  beforeAll(() => {
+    Mockdate.reset();
+  });
+  beforeAll(() => {
+    Mockdate.set(new Date());
+  });
+
   test('Should call AddSuveryRepository with correct values', async () => {
     const { sut, addSurveyRepositoryStub } = makeSut();
     const addSurveyRepositorySpy = jest.spyOn(addSurveyRepositoryStub, 'add');
