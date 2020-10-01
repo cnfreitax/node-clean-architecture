@@ -38,10 +38,10 @@ const makeSut = (): SutTypes => {
 
 describe('DbAddSurvey', () => {
   beforeAll(() => {
-    Mockdate.reset();
-  });
-  beforeAll(() => {
     Mockdate.set(new Date());
+  });
+  afterAll(() => {
+    Mockdate.reset();
   });
 
   test('Should call AddSuveryRepository with correct values', async () => {
