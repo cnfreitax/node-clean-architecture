@@ -2,6 +2,7 @@ import {
   LoadSurveys,
   SurveyModel,
   ok,
+  serverError,
 } from './load-surveys-controller-protocols';
 import { LoadSurveysController } from './load-surveys-controller';
 import Mockdate from 'mockdate';
@@ -64,5 +65,16 @@ describe('LoadSurveys Controller', () => {
     const { sut } = makeSut();
     const response = await sut.handle({});
     expect(response).toEqual(ok(makeFakeSurveysList()));
+  });
+
+  test('Should return 500 if LoadSurveys throws', async () => {
+    const { sut, loadSurveysStub } = makeSut();
+    jest
+      .spyOn(loadSurveysStub, 'load')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
+    const httpresponse = await sut.handle({});
+    expect(httpresponse).toEqual(serverError(new Error()));
   });
 });
