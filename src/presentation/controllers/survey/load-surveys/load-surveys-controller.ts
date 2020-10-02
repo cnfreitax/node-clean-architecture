@@ -1,3 +1,4 @@
+import { noContent } from '../../../helpers/http/http-helpers';
 import {
   Controller,
   HttpRequest,
@@ -12,7 +13,7 @@ export class LoadSurveysController implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const surveys = await this.loadSurveys.load();
-      return ok(surveys);
+      return surveys.length ? ok(surveys) : noContent();
     } catch (err) {
       return serverError(err);
     }
