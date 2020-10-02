@@ -6,6 +6,7 @@ import {
 } from './load-surveys-controller-protocols';
 import { LoadSurveysController } from './load-surveys-controller';
 import Mockdate from 'mockdate';
+import { noContent } from '../../../helpers/http/http-helpers';
 
 interface SutTypes {
   sut: LoadSurveysController;
@@ -65,6 +66,15 @@ describe('LoadSurveys Controller', () => {
     const { sut } = makeSut();
     const response = await sut.handle({});
     expect(response).toEqual(ok(makeFakeSurveysList()));
+  });
+
+  test('Should return 204 if LoadSurveys return empty', async () => {
+    const { sut, loadSurveysStub } = makeSut();
+    jest
+      .spyOn(loadSurveysStub, 'load')
+      .mockReturnValueOnce(new Promise(resolve => resolve([])));
+    const httpResponse = await sut.handle({});
+    expect(httpResponse).toEqual(noContent());
   });
 
   test('Should return 500 if LoadSurveys throws', async () => {
