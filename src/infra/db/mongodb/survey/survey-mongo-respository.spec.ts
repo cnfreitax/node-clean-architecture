@@ -4,6 +4,10 @@ import { SurveyMongoRepository } from './survey-mongo-repository';
 
 let surveyCollections: Collection;
 
+const makeSut = (): SurveyMongoRepository => {
+  return new SurveyMongoRepository();
+};
+
 describe('Survey Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
@@ -18,28 +22,56 @@ describe('Survey Mongo Repository', () => {
     await surveyCollections.deleteMany({}); // delete datas
   });
 
-  const makeSut = (): SurveyMongoRepository => {
-    return new SurveyMongoRepository();
-  };
+  describe('Add method', () => {
+    test('Should create survey', async () => {
+      const sut = makeSut();
+      await sut.add({
+        question: 'any_question',
+        answers: [
+          {
+            image: 'any_image',
+            answer: 'any_answer',
+          },
+          {
+            answer: 'other_answer',
+          },
+        ],
+        date: new Date(),
+      });
+      const survey = await surveyCollections.findOne({
+        question: 'any_question',
+      });
+      expect(survey).toBeTruthy();
+    });
+  });
 
-  test('Should create survey', async () => {
-    const sut = makeSut();
-    await sut.add({
-      question: 'any_question',
-      answers: [
+  describe('Load Surveys', () => {
+    test('Should list surveys on success', async () => {
+      await surveyCollections.insertMany([
         {
-          image: 'any_image',
-          answer: 'any_answer',
+          question: 'any_question',
+          answers: [
+            {
+              image: 'any_image',
+              answer: 'any_answer',
+            },
+          ],
+          date: new Date(),
         },
         {
-          answer: 'other_answer',
+          question: 'any_question',
+          answers: [
+            {
+              image: 'any_image',
+              answer: 'any_answer',
+            },
+          ],
+          date: new Date(),
         },
-      ],
-      date: new Date(),
+      ]);
+      const sut = makeSut();
+      const surveys = await sut.loadAll();
+      expect(surveys.length).toBe(2);
     });
-    const survey = await surveyCollections.findOne({
-      question: 'any_question',
-    });
-    expect(survey).toBeTruthy();
   });
 });
