@@ -24,7 +24,7 @@ describe('Survey Routes', () => {
     await accountCollection.deleteMany({});
   });
 
-  describe('Post/survey', () => {
+  describe('Post/surveys', () => {
     test('Should return 403 on add survery without accessToken', async () => {
       await request(app)
         .post('/api/surveys')
@@ -78,6 +78,12 @@ describe('Survey Routes', () => {
           ],
         })
         .expect(204);
+    });
+  });
+
+  describe('GET/surveys', () => {
+    test('Should return 403 on load survery without accessToken', async () => {
+      await request(app).get('/api/surveys').expect(403);
     });
   });
 });
