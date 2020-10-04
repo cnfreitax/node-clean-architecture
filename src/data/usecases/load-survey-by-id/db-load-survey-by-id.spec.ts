@@ -64,7 +64,7 @@ describe('DbLoadSurveyById', () => {
     expect(surveys).toEqual(makeFakeSurveysList());
   });
 
-  test('Should throws if LoadSurveysReepository throws', async () => {
+  test('Should throws if LoadSurveyByIdReepository throws', async () => {
     const { sut, loadSurveyByIdRepositoryStub } = makeSut();
     jest
       .spyOn(loadSurveyByIdRepositoryStub, 'loadById')
