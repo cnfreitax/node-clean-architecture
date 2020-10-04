@@ -1,13 +1,13 @@
-export interface SurveyAnwser {
+export type SurveyAnwser = {
   image?: string;
   answer: string;
-}
+};
 
-export interface AddSurveyModel {
+export type AddSurveyModel = {
   question: string;
   answers: SurveyAnwser[];
   date: Date;
-}
+};
 
 export interface AddSurvey {
   add(data: AddSurveyModel): Promise<void>;

@@ -8,10 +8,10 @@ import { LoadSurveysController } from './load-surveys-controller';
 import Mockdate from 'mockdate';
 import { noContent } from '../../../helpers/http/http-helpers';
 
-interface SutTypes {
+type SutTypes = {
   sut: LoadSurveysController;
   loadSurveysStub: LoadSurveys;
-}
+};
 
 const makeFakeSurveysList = (): SurveyModel[] => {
   return [

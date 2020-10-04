@@ -19,13 +19,12 @@ import {
   badResquest,
   forbidden,
 } from '../../../helpers/http/http-helpers';
-
-interface SutTypes {
+type SutTypes = {
   sut: SignupController;
   addAccountStub: AddAccount;
   authenticationStub: Authentication;
   validationStub: Validation;
-}
+};
 
 const fakeHttpRequest = (): HttpRequest => ({
   body: {

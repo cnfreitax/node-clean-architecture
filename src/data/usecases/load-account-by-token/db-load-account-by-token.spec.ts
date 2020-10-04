@@ -3,11 +3,11 @@ import { Decrypter } from '../../protocols/criptography/decrypter';
 import { AccountModel } from '../../../domain/models/account';
 import { LoadAccountByTokenRepository } from '../../protocols/db/account/load-account-by-token-repository';
 
-interface SutTypes {
+type SutTypes = {
   sut: DbLoadAccountByToken;
   decrypterStub: Decrypter;
   loadAccountByTokenRepositoryStub: LoadAccountByTokenRepository;
-}
+};
 
 const fakeAccount = (): AccountModel => ({
   id: 'valid_id',
