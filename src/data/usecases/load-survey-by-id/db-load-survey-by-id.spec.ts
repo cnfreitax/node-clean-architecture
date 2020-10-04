@@ -57,4 +57,10 @@ describe('DbLoadSurveyById', () => {
     await sut.loadById('any_id');
     expect(loadRepositorySpy).toHaveBeenCalledWith('any_id');
   });
+
+  test('Should return an survey on success', async () => {
+    const { sut } = makeSut();
+    const surveys = await sut.loadById('any_id');
+    expect(surveys).toEqual(makeFakeSurveysList());
+  });
 });
