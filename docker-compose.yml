@@ -14,6 +14,8 @@ services:
     image: clean-node-api
     restart: always
     command: yarn start
+    environment:
+      - MONGO_URL=mongo://mongo:27017/clean-node-api
     volumes:
       - ./dist:/usr/src/clean-node-api/dist
     ports:
