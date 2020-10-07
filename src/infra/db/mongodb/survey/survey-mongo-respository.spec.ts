@@ -72,6 +72,7 @@ describe('Survey Mongo Repository', () => {
       const sut = makeSut();
       const surveys = await sut.loadAll();
       expect(surveys.length).toBe(2);
+      expect(surveys[0].id).toBeTruthy();
     });
 
     test('Should list empty list', async () => {
@@ -97,6 +98,7 @@ describe('Survey Mongo Repository', () => {
       const sut = makeSut();
       const surveys = await sut.loadById(id);
       expect(surveys).toBeTruthy();
+      expect(surveys.id).toBeTruthy();
     });
   });
 });
