@@ -1,17 +1,15 @@
 import { LoginController } from './login-controller';
 import {
+  HttpRequest,
+  Authentication,
+  Validation,
+  AuthenticationModel,
   badResquest,
   serverError,
   anauthorized,
   ok,
-} from '../../../helpers/http/http-helpers';
-import { MissingParamError } from '../../../error';
-import {
-  HttpRequest,
-  Authentication,
-  Validation,
+  MissingParamError,
 } from './login-controller-protocols';
-import { AuthenticationModel } from '../../../../domain/usecases/authentication';
 
 interface SutType {
   sut: LoginController;
