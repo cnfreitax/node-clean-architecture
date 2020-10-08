@@ -2,9 +2,9 @@ import { LoadSurveysRepository } from '../../../../data/protocols/db/survey/load
 import {
   AddSurveyModel,
   AddSurveyRepository,
-} from '../../../../data/usecases/add-survey/add-survey-protocols';
+} from '../../../../data/usecases/survey/add-survey/add-survey-protocols';
 import { SurveyModel } from '../../../../domain/models/survey';
-import { LoadSurveysById } from '../../../../domain/usecases/load-survey-by-id';
+import { LoadSurveysById } from '../../../../domain/usecases/survey/load-survey-by-id';
 import { MongoHelper } from '../helpers/mongo-helper';
 
 export class SurveyMongoRepository

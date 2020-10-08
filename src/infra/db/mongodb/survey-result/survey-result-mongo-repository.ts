@@ -1,6 +1,6 @@
-import { SaveSurveyResultRepository } from '../../../../data/protocols/db/survey/save-surveys-result';
-import { SurveryResultModel } from '../../../../domain/models/surveys-result';
-import { SaveSurveyResultData } from '../../../../domain/usecases/save-survey-result';
+import { SaveSurveyResultRepository } from '../../../../data/protocols/db/survey-result/save-surveys-result-repository';
+import { SaveSurveyResultData } from '../../../../domain/usecases/survey-result/save-survey-result';
+import { SurveryResultModel } from '../../../../domain/usecases/survey-result/surveys-result';
 import { MongoHelper } from '../helpers/mongo-helper';
 
 export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
