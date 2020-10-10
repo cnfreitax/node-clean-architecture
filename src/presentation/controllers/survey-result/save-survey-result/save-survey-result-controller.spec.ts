@@ -8,6 +8,7 @@ import {
   SaveSurveyResult,
   SaveSurveyResultData,
   SurveryResultModel,
+  ok,
 } from './save-survey-result-controller-protocols';
 import { SaveSurveyResultController } from './save-survey-result-controller';
 import MockDate from 'mockdate';
@@ -40,7 +41,7 @@ const makeFakeSurvey = (): SurveyModel => ({
   date: new Date(),
 });
 
-const makeSurveySaved = (): SurveryResultModel => ({
+const makeSurveyResultSaved = (): SurveryResultModel => ({
   id: 'any_id',
   surveyId: 'any_id',
   accountId: 'any_account_id',
@@ -60,7 +61,7 @@ const makeLoadSurveyById = (): LoadSurveysById => {
 const makeSaveSurveyResult = (): SaveSurveyResult => {
   class SaveSurveyResultStub implements SaveSurveyResult {
     async save(data: SaveSurveyResultData): Promise<SurveryResultModel> {
-      return new Promise(resolve => resolve(makeSurveySaved()));
+      return new Promise(resolve => resolve(makeSurveyResultSaved()));
     }
   }
   return new SaveSurveyResultStub();
@@ -151,5 +152,12 @@ describe('SaveSurveyResultController', () => {
       );
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(serverError(new Error()));
+  });
+
+  test('Should return 200 and suvery result on success', async () => {
+    const { sut } = makeSut();
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse.statusCode).toEqual(200);
+    expect(httpResponse).toEqual(ok(makeSurveyResultSaved()));
   });
 });
