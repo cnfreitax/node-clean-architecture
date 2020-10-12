@@ -4,10 +4,10 @@
 //  CASO NÃO, ELE INTERROMPE
 
 import { HttpRequest, Middleware } from '../../presentation/protocols';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 export const adapterMiddleware = (middleware: Middleware) => {
-  return async (req: Request, res: Response, next: NewableFunction) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     const httpRequest: HttpRequest = {
       headers: req.headers,
     };
