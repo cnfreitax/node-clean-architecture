@@ -1,4 +1,4 @@
-import { SurveyAnwser } from '../usecases/add-survey';
+import { SurveyAnwser } from '../usecases/survey/add-survey';
 
 export type SurveyModel = {
   id: string;
