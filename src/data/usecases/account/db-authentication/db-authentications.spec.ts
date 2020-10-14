@@ -3,7 +3,7 @@ import {
   UpdateAccessTokenRepository,
   Encrypter,
   HashComparer,
-  AuthenticationModel,
+  AuthenticationParams,
   LoadAccountByEmailRepository,
   AccountModel,
 } from './db-authentication-protocols';
@@ -60,7 +60,7 @@ const makeHashCompare = (): HashComparer => {
   return new HashComparerStub();
 };
 
-const fakeAuthentication = (): AuthenticationModel => ({
+const fakeAuthentication = (): AuthenticationParams => ({
   email: 'any@mail.com',
   password: 'any_password',
 });

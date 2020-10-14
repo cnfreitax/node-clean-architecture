@@ -3,12 +3,12 @@ export type SurveyAnwser = {
   answer: string;
 };
 
-export type AddSurveyModel = {
+export type AddSurveyParams = {
   question: string;
   answers: SurveyAnwser[];
   date: Date;
 };
 
 export interface AddSurvey {
-  add(data: AddSurveyModel): Promise<void>;
+  add(data: AddSurveyParams): Promise<void>;
 }
