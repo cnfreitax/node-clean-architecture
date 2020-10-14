@@ -1,5 +1,6 @@
-import { AccountModel } from '../../domain/models/account';
+import { throwError } from '../../domain/test';
 import { AuthMiddleware } from './auth-middleware';
+import { mockLoadAccountByToken } from '../test';
 import {
   HttpRequest,
   forbidden,
@@ -9,14 +10,7 @@ import {
   LoadAccountByToken,
 } from './auth-middlewares-protocols';
 
-const makeFakeAccount = (): AccountModel => ({
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email',
-  password: 'hashed_password',
-});
-
-const makeFakeRequest = (): HttpRequest => ({
+const mockFakeRequest = (): HttpRequest => ({
   headers: {
     'x-access-token': 'any_token',
   },
@@ -27,18 +21,8 @@ type SutTypes = {
   loadAccountByTokenStub: LoadAccountByToken;
 };
 
-const makeLoadAccountByToken = (): LoadAccountByToken => {
-  class LoadAccountByTokenStub implements LoadAccountByToken {
-    async load(accessToken: string, role?: string): Promise<AccountModel> {
-      const account = makeFakeAccount();
-      return new Promise(resolve => resolve(account));
-    }
-  }
-  return new LoadAccountByTokenStub();
-};
-
 const makeSut = (role?: string): SutTypes => {
-  const loadAccountByTokenStub = makeLoadAccountByToken();
+  const loadAccountByTokenStub = mockLoadAccountByToken();
   const sut = new AuthMiddleware(loadAccountByTokenStub, role);
 
   return {
@@ -58,7 +42,7 @@ describe('Authentication Middleware', () => {
     const role = 'any_role';
     const { sut, loadAccountByTokenStub } = makeSut(role);
     const loadSpy = jest.spyOn(loadAccountByTokenStub, 'load');
-    await sut.handle(makeFakeRequest());
+    await sut.handle(mockFakeRequest());
     expect(loadSpy).toHaveBeenCalledWith('any_token', role);
   });
 
@@ -73,7 +57,7 @@ describe('Authentication Middleware', () => {
 
   test('Should return 200 if LoadAccountByToken return an account', async () => {
     const { sut } = makeSut();
-    const httpResponse = await sut.handle(makeFakeRequest());
+    const httpResponse = await sut.handle(mockFakeRequest());
     expect(httpResponse).toEqual(ok({ accountId: 'any_id' }));
   });
 
@@ -81,10 +65,8 @@ describe('Authentication Middleware', () => {
     const { sut, loadAccountByTokenStub } = makeSut();
     jest
       .spyOn(loadAccountByTokenStub, 'load')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error())),
-      );
-    const httpResponse = await sut.handle(makeFakeRequest());
+      .mockImplementationOnce(throwError);
+    const httpResponse = await sut.handle(mockFakeRequest());
     expect(httpResponse).toEqual(serverError(new Error()));
   });
 });

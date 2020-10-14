@@ -1,38 +1,16 @@
 import Mockdate from 'mockdate';
-import { SurveyModel } from '../../../../domain/models/survey';
+import { mockFakeSurvey, throwError } from '../../../../domain/test';
 import { LoadSurveyByIdRepository } from '../../../protocols/db/survey/load-survey-by-id-repository';
 import { DbLoadSurveyById } from './db-load-survey-by-id';
+import { mockLoadSurveyByIdRepositoryRepository } from '../../../test';
 
 type SutTypes = {
   sut: DbLoadSurveyById;
   loadSurveyByIdRepositoryStub: LoadSurveyByIdRepository;
 };
 
-const makeFakeSurveysList = (): SurveyModel => {
-  return {
-    id: 'any_id',
-    question: 'any_question',
-    answers: [
-      {
-        image: 'any_image',
-        answer: 'any_answer',
-      },
-    ],
-    date: new Date(),
-  };
-};
-
-const makeLoadSurveyBtIdRepositoryStub = (): LoadSurveyByIdRepository => {
-  class LoadSurveyByIdRepositoryStub implements LoadSurveyByIdRepository {
-    async loadById(id: string): Promise<SurveyModel> {
-      return new Promise(resolve => resolve(makeFakeSurveysList()));
-    }
-  }
-  return new LoadSurveyByIdRepositoryStub();
-};
-
 const makeSut = (): SutTypes => {
-  const loadSurveyByIdRepositoryStub = makeLoadSurveyBtIdRepositoryStub();
+  const loadSurveyByIdRepositoryStub = mockLoadSurveyByIdRepositoryRepository();
   const sut = new DbLoadSurveyById(loadSurveyByIdRepositoryStub);
   return {
     sut,
@@ -61,16 +39,14 @@ describe('DbLoadSurveyById', () => {
   test('Should return an survey on success', async () => {
     const { sut } = makeSut();
     const surveys = await sut.loadById('any_id');
-    expect(surveys).toEqual(makeFakeSurveysList());
+    expect(surveys).toEqual(mockFakeSurvey());
   });
 
   test('Should throws if LoadSurveyByIdReepository throws', async () => {
     const { sut, loadSurveyByIdRepositoryStub } = makeSut();
     jest
       .spyOn(loadSurveyByIdRepositoryStub, 'loadById')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error())),
-      );
+      .mockImplementationOnce(throwError);
     const promise = sut.loadById('any_id');
     await expect(promise).rejects.toThrow();
   });

@@ -6,7 +6,8 @@ import {
 } from '../../presentation/protocols';
 import { serverError, ok } from '../../presentation/helpers/http/http-helpers';
 import { LogErrorRepository } from '../../data/protocols/db/log/log-error-repository';
-import { AccountModel } from '../../domain/models/account';
+import { mockFakeAccountModel } from '../../domain/test';
+import { mockLogErrorRepository } from '../../data/test';
 
 interface SutType {
   sut: LogControllerDecorator;
@@ -29,27 +30,10 @@ const fakeHttpRequest = (): HttpRequest => ({
   },
 });
 
-const fakeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid@mail.com',
-  password: 'valid_password',
-});
-
-const makeLogErrorRepository = (): LogErrorRepository => {
-  class LogErrorRepositoryStub implements LogErrorRepository {
-    async logError(stack: string): Promise<void> {
-      return new Promise(resolve => resolve());
-    }
-  }
-
-  return new LogErrorRepositoryStub();
-};
-
 const makeController = (): any => {
   class ControllerStub implements Controller {
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-      return new Promise(resolve => resolve(ok(fakeAccount())));
+      return new Promise(resolve => resolve(ok(mockFakeAccountModel())));
     }
   }
   return new ControllerStub();
@@ -57,7 +41,7 @@ const makeController = (): any => {
 
 const makeSut = (): SutType => {
   const controllerStub = makeController();
-  const logErrorRepositoryStub = makeLogErrorRepository();
+  const logErrorRepositoryStub = mockLogErrorRepository();
   const sut = new LogControllerDecorator(
     controllerStub,
     logErrorRepositoryStub,
@@ -80,7 +64,7 @@ describe('LogController Decorator', () => {
   test('Should result the same of the controller ', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(fakeHttpRequest());
-    expect(httpResponse).toEqual(ok(fakeAccount()));
+    expect(httpResponse).toEqual(ok(mockFakeAccountModel()));
   });
 
   test('Should call logEWrrorRepository with correct error if controller returns a server error', async () => {

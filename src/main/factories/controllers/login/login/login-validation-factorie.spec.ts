@@ -3,7 +3,7 @@ import { ValidationComposite } from '../../../../../validation/validators/valida
 import { RequiredFieldValidiation } from '../../../../../validation/validators/required-field-validation';
 import { Validation } from '../../../../../presentation/protocols/validation';
 import { EmailValidation } from '../../../../../validation/validators/email-validation';
-import { EmailValidator } from '../../../../../validation/protocols/email-validotr';
+import { EmailValidator } from '../../../../../validation/protocols/email-validator';
 
 jest.mock('../../../../../validation/validators/validation-composite');
 

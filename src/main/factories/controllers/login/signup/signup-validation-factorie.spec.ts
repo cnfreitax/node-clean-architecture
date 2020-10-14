@@ -6,7 +6,7 @@ import {
   RequiredFieldValidiation,
   ValidationComposite,
 } from '../../../../../validation/validators';
-import { EmailValidator } from '../../../../../validation/protocols/email-validotr';
+import { EmailValidator } from '../../../../../validation/protocols/email-validator';
 
 jest.mock('../../../../../validation/validators/validation-composite');
 
