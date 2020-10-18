@@ -8,7 +8,7 @@ import {
 export const mockAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     async add(account: AddAccountParams): Promise<AccountModel> {
-      return new Promise(resolve => resolve(mockFakeAccountModel()));
+      return Promise.resolve(mockFakeAccountModel());
     }
   }
 

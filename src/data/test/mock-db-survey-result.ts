@@ -8,7 +8,7 @@ export const mockAddSaveSurveyResultRepsotirory = (): SaveSurveyResultRepository
     async save(
       surveyData: SaveSurveyResultParams,
     ): Promise<SurveryResultModel> {
-      return new Promise(resolve => resolve(mockSurveyResult()));
+      return Promise.resolve(mockSurveyResult());
     }
   }
   return new SaveSurveyResultRepositoryStub();

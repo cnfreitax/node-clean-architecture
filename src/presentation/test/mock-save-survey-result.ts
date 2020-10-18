@@ -15,7 +15,7 @@ export const mockSurveyResultSaved = (): SurveryResultModel => ({
 export const mockSaveSurveyResult = (): SaveSurveyResult => {
   class SaveSurveyResultStub implements SaveSurveyResult {
     async save(data: SaveSurveyResultParams): Promise<SurveryResultModel> {
-      return new Promise(resolve => resolve(mockSurveyResultSaved()));
+      return Promise.resolve(mockSurveyResultSaved());
     }
   }
   return new SaveSurveyResultStub();

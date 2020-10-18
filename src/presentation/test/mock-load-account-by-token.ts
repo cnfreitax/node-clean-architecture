@@ -6,7 +6,7 @@ export const mockLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
     async load(accessToken: string, role?: string): Promise<AccountModel> {
       const account = mockFakeAccountModel();
-      return new Promise(resolve => resolve(account));
+      return Promise.resolve(account);
     }
   }
   return new LoadAccountByTokenStub();
