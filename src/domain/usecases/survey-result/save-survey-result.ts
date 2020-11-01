@@ -1,6 +1,11 @@
 import { SurveryResultModel } from './surveys-result';
 
-export type SaveSurveyResultParams = Omit<SurveryResultModel, 'id'>;
+export type SaveSurveyResultParams = {
+  surveyId: string;
+  accountId: string;
+  answer: string;
+  date: Date;
+};
 
 export interface SaveSurveyResult {
   save(data: SaveSurveyResultParams): Promise<SurveryResultModel>;

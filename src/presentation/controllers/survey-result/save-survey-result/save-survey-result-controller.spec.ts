@@ -9,11 +9,8 @@ import {
 } from './save-survey-result-controller-protocols';
 import { SaveSurveyResultController } from './save-survey-result-controller';
 import MockDate from 'mockdate';
-import {
-  mockLoadSurveyById,
-  mockSaveSurveyResult,
-  mockSurveyResultSaved,
-} from '../../../test';
+import { mockLoadSurveyById, mockSaveSurveyResult } from '../../../test';
+import { mockSurveyResult } from '../../../../domain/test';
 
 type SutType = {
   sut: SaveSurveyResultController;
@@ -122,6 +119,6 @@ describe('SaveSurveyResultController', () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(mockFakeHttpRequest());
     expect(httpResponse.statusCode).toEqual(200);
-    expect(httpResponse).toEqual(ok(mockSurveyResultSaved()));
+    expect(httpResponse).toEqual(ok(mockSurveyResult()));
   });
 });
