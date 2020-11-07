@@ -1,5 +1,5 @@
 export const surveyResultPath = {
-  post: {
+  put: {
     security: [
       {
         apiKeyAuth: [],
