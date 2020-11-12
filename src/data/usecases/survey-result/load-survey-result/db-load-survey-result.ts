@@ -1,6 +1,8 @@
-import { LoadSurveyResultRepository } from '../../../protocols/db/survey-result/load-survey-result-repository';
-import { SurveryResultModel } from '../save-survey-result/db-save-survey-result-protocols';
-import { LoadSurveyResult } from './db-load-survey-result-protocols';
+import {
+  LoadSurveyResult,
+  LoadSurveyResultRepository,
+  SurveryResultModel,
+} from './db-load-survey-result-protocols';
 
 export class DbLoadSurveyResult implements LoadSurveyResult {
   constructor(
