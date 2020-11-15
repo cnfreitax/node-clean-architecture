@@ -79,4 +79,10 @@ describe('Survey Result Routes', () => {
         .expect(403);
     });
   });
+
+  describe('GET survey results', () => {
+    test('Should return 403 on load survery result without accessToken', async () => {
+      await request(app).get('/api/surveys/any_id/results').expect(403);
+    });
+  });
 });
