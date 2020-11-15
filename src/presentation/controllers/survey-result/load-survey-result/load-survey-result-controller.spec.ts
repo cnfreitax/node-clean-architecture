@@ -53,7 +53,7 @@ describe('LoadSurveyResult Controller', () => {
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('surveyId')));
   });
 
-  test('Should return 500 is throws ', async () => {
+  test('Should return 500 if LoadSuveyById throws ', async () => {
     const { sut, loadSurveyByIdStub } = makeSut();
     jest
       .spyOn(loadSurveyByIdStub, 'loadById')
@@ -67,5 +67,12 @@ describe('LoadSurveyResult Controller', () => {
     const loadSurveyResultSpy = jest.spyOn(loadSurveyResultStub, 'load');
     await sut.handle(mockFakeRequest());
     expect(loadSurveyResultSpy).toHaveBeenCalledWith('any_id');
+  });
+
+  test('Should return 500 if LoadSuveyResultBy throws ', async () => {
+    const { sut, loadSurveyResultStub } = makeSut();
+    jest.spyOn(loadSurveyResultStub, 'load').mockImplementationOnce(throwError);
+    const httpResponse = await sut.handle(mockFakeRequest());
+    expect(httpResponse).toEqual(serverError(new Error()));
   });
 });
