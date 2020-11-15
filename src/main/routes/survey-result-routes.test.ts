@@ -61,7 +61,7 @@ describe('Survey Result Routes', () => {
         question: 'any_question',
         answers: [
           {
-            image: 'Ansewer 1',
+            image: 'image_answer',
             answer: 'any_answer',
           },
           {
@@ -74,15 +74,36 @@ describe('Survey Result Routes', () => {
         .put(`/api/surveys/${res.ops[0]._id}/results`)
         .set('x-access-token', accessToken)
         .send({
-          answer: 'Ansewer 1',
+          answer: 'any_answer',
         })
-        .expect(403);
+        .expect(200);
     });
   });
 
   describe('GET survey results', () => {
     test('Should return 403 on load survery result without accessToken', async () => {
       await request(app).get('/api/surveys/any_id/results').expect(403);
+    });
+
+    test('Should return 200 on load survery result with accessToken', async () => {
+      const accessToken = await makeAccessToken();
+      const res = await surveyCollection.insertOne({
+        question: 'any_question',
+        answers: [
+          {
+            image: 'answer_img',
+            answer: 'any_answer',
+          },
+          {
+            answer: 'other_answer',
+          },
+        ],
+        date: new Date(),
+      });
+      await request(app)
+        .get(`/api/surveys/${res.ops[0]._id}/results`)
+        .set('x-access-token', accessToken)
+        .expect(200);
     });
   });
 });
