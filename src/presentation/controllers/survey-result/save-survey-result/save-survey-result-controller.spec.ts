@@ -1,6 +1,6 @@
 import {
   HttpRequest,
-  LoadSurveysById,
+  LoadSurveyById,
   forbidden,
   InvalidParamError,
   serverError,
@@ -14,7 +14,7 @@ import { mockSurveyResult } from '../../../../domain/test';
 
 type SutType = {
   sut: SaveSurveyResultController;
-  loadSurveyByIdStub: LoadSurveysById;
+  loadSurveyByIdStub: LoadSurveyById;
   saveSurveyResultStub: SaveSurveyResult;
 };
 

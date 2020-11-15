@@ -2,7 +2,7 @@ import Mockdate from 'mockdate';
 import { mockFakeSurvey, throwError } from '../../../../domain/test';
 import { LoadSurveyByIdRepository } from '../../../protocols/db/survey/load-survey-by-id-repository';
 import { DbLoadSurveyById } from './db-load-survey-by-id';
-import { mockLoadSurveyByIdRepositoryRepository } from '../../../test';
+import { mockLoadSurveyByIdRepository } from '../../../test';
 
 type SutTypes = {
   sut: DbLoadSurveyById;
@@ -10,7 +10,7 @@ type SutTypes = {
 };
 
 const makeSut = (): SutTypes => {
-  const loadSurveyByIdRepositoryStub = mockLoadSurveyByIdRepositoryRepository();
+  const loadSurveyByIdRepositoryStub = mockLoadSurveyByIdRepository();
   const sut = new DbLoadSurveyById(loadSurveyByIdRepositoryStub);
   return {
     sut,
@@ -26,7 +26,7 @@ describe('DbLoadSurveyById', () => {
   afterAll(() => {
     Mockdate.reset();
   });
-  test('Should call LoadSurveysByIdRepository', async () => {
+  test('Should call LoadSurveyByIdRepository', async () => {
     const { sut, loadSurveyByIdRepositoryStub } = makeSut();
     const loadRepositorySpy = jest.spyOn(
       loadSurveyByIdRepositoryStub,

@@ -1,6 +1,6 @@
 import { mockSurveyResult, throwError } from '../../../../domain/test';
 import {
-  mockLoadSurveyByIdRepositoryRepository,
+  mockLoadSurveyByIdRepository,
   mockLoadSurveyResultRepository,
 } from '../../../test';
 import { DbLoadSurveyResult } from './db-load-survey-result';
@@ -18,7 +18,7 @@ type SutTypes = {
 
 const mockSut = (): SutTypes => {
   const loadSurveyResultRepositoryStub = mockLoadSurveyResultRepository();
-  const loadSurveyByIdRepositoryStub = mockLoadSurveyByIdRepositoryRepository();
+  const loadSurveyByIdRepositoryStub = mockLoadSurveyByIdRepository();
   const sut = new DbLoadSurveyResult(
     loadSurveyResultRepositoryStub,
     loadSurveyByIdRepositoryStub,
