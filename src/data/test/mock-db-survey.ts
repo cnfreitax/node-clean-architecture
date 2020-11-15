@@ -14,7 +14,7 @@ export const mockAddSurveyRepsotirory = (): AddSurveyRepository => {
   return new AddSurveyRepositoryStub();
 };
 
-export const mockLoadSurveyByIdRepositoryRepository = (): LoadSurveyByIdRepository => {
+export const mockLoadSurveyByIdRepository = (): LoadSurveyByIdRepository => {
   class LoadSurveyByIdRepositoryStub implements LoadSurveyByIdRepository {
     async loadById(id: string): Promise<SurveyModel> {
       return Promise.resolve(mockFakeSurvey());

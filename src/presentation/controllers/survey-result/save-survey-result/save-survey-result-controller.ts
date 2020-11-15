@@ -2,7 +2,7 @@ import {
   Controller,
   HttpRequest,
   HttpResponse,
-  LoadSurveysById,
+  LoadSurveyById,
   forbidden,
   InvalidParamError,
   serverError,
@@ -12,7 +12,7 @@ import {
 
 export class SaveSurveyResultController implements Controller {
   constructor(
-    private readonly loadSurveyById: LoadSurveysById,
+    private readonly loadSurveyById: LoadSurveyById,
     private readonly saveSurveyResult: SaveSurveyResult,
   ) {}
 

@@ -5,11 +5,11 @@ import {
   AddSurveyRepository,
 } from '../../../../data/usecases/survey/add-survey/add-survey-protocols';
 import { SurveyModel } from '../../../../domain/models/survey';
-import { LoadSurveysById } from '../../../../domain/usecases/survey/load-survey-by-id';
+import { LoadSurveyById } from '../../../../domain/usecases/survey/load-survey-by-id';
 import { MongoHelper } from '../helpers/mongo-helper';
 
 export class SurveyMongoRepository
-  implements AddSurveyRepository, LoadSurveysRepository, LoadSurveysById {
+  implements AddSurveyRepository, LoadSurveysRepository, LoadSurveyById {
   async add(surveyData: AddSurveyParams): Promise<void> {
     const surveyCollection = await MongoHelper.getCollection('surveys');
     await surveyCollection.insertOne(surveyData);
