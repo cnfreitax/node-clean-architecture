@@ -24,11 +24,14 @@ export class LoginController implements Controller {
       }
       const { email, password } = httpRequest.body;
 
-      const accessToken = await this.authentication.auth({ email, password });
-      if (!accessToken) {
+      const authenticationModel = await this.authentication.auth({
+        email,
+        password,
+      });
+      if (!authenticationModel) {
         return anauthorized();
       }
-      return ok({ accessToken });
+      return ok(authenticationModel);
     } catch (err) {
       return serverError(err);
     }
