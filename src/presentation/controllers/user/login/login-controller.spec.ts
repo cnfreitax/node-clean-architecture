@@ -66,9 +66,10 @@ describe('Login Controller', () => {
 
   test('Should return 200 if Authentication calls correct values', async () => {
     const { sut } = makeSut();
-
     const httpResnpose = await sut.handle(mockFakeHttpRequest());
-    expect(httpResnpose).toEqual(ok({ accessToken: 'any_token' }));
+    expect(httpResnpose).toEqual(
+      ok({ accessToken: 'any_token', name: 'any_name' }),
+    );
   });
 
   test('Should call Validation with correct value ', async () => {

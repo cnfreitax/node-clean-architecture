@@ -76,7 +76,9 @@ describe('Signup Controller', () => {
   test('Should return 200 if data correct is provider ', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(mockFakeHttpRequest());
-    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }));
+    expect(httpResponse).toEqual(
+      ok({ accessToken: 'any_token', name: 'any_name' }),
+    );
   });
 
   test('Should return 403 if AddAccount return null ', async () => {

@@ -10,6 +10,7 @@ import {
 import { LoadSurveyResultController } from './load-survey-result-controller';
 import { mockLoadSurveyById, mockLoadSurveyResult } from '../../../test';
 import { mockSurveyResult, throwError } from '../../../../domain/test';
+import MockDate from 'mockdate';
 
 type SutTypes = {
   sut: LoadSurveyResultController;
@@ -38,6 +39,13 @@ const mockFakeRequest = (): HttpRequest => ({
 });
 
 describe('LoadSurveyResult Controller', () => {
+  beforeEach(() => {
+    MockDate.set(new Date());
+  });
+
+  afterAll(() => {
+    MockDate.reset();
+  });
   test('Should call LoadSuveyById with correct value ', async () => {
     const { sut, loadSurveyByIdStub } = makeSut();
     const loadSurveyByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById');
