@@ -3,6 +3,7 @@ export type SurveyModel = {
   question: string;
   answers: SurveyAnwser[];
   date: Date;
+  didAnswer: boolean;
 };
 
 type SurveyAnwser = {

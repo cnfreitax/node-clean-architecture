@@ -11,6 +11,7 @@ export const mockFakeSurvey = (): SurveyModel => ({
     },
   ],
   date: new Date(),
+  didAnswer: false,
 });
 
 export const mockAddSurvey = (): AddSurveyParams => ({
@@ -36,6 +37,7 @@ export const mockFakeSurveysList = (): SurveyModel[] => {
         },
       ],
       date: new Date(),
+      didAnswer: false,
     },
   ];
 };
