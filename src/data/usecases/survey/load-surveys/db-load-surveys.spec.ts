@@ -9,6 +9,8 @@ type SutTypes = {
   loadSurveysRepositoryStub: LoadSurveysRepository;
 };
 
+const accountId = 'any_account_id';
+
 const makeSut = (): SutTypes => {
   const loadSurveysRepositoryStub = mockLoadSurveysRepository();
   const sut = new DbLoadSurveys(loadSurveysRepositoryStub);
@@ -29,8 +31,8 @@ describe('DbLoadSurveys', () => {
   test('Should call LoadSurveysReepository', async () => {
     const { sut, loadSurveysRepositoryStub } = makeSut();
     const loadRepositorySpy = jest.spyOn(loadSurveysRepositoryStub, 'loadAll');
-    await sut.load();
-    expect(loadRepositorySpy).toHaveBeenCalled();
+    await sut.load(accountId);
+    expect(loadRepositorySpy).toHaveBeenCalledWith('any_account_id');
   });
 
   test('Should throws if LoadSurveysReepository throws', async () => {
@@ -38,13 +40,13 @@ describe('DbLoadSurveys', () => {
     jest
       .spyOn(loadSurveysRepositoryStub, 'loadAll')
       .mockImplementationOnce(throwError);
-    const promise = sut.load();
+    const promise = sut.load(accountId);
     await expect(promise).rejects.toThrow();
   });
 
   test('Should return an surveys list on success', async () => {
     const { sut } = makeSut();
-    const surveys = await sut.load();
+    const surveys = await sut.load(accountId);
     expect(surveys).toEqual(mockFakeSurveysList());
   });
 });
