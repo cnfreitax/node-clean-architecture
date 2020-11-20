@@ -28,7 +28,7 @@ export class SurveyMongoRepository
       .project({
         _id: 1,
         question: 1,
-        answer: 1,
+        answers: 1,
         date: 1,
         didAnswer: {
           $gte: [
