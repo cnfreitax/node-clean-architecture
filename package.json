@@ -1,6 +1,6 @@
 {
   "name": "api-clean-node",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "main": "index.js",
   "author": "Victor Freitas <victornobrega1980@gmail.com>",
   "license": "MIT",
