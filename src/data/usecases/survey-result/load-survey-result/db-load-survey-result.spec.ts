@@ -37,14 +37,14 @@ describe('DbLoadSurveyResult UseCase', () => {
   afterAll(() => {
     mockdate.reset();
   });
-  test('should call LoadSurveyResultRepository', async () => {
+  test('should call LoadSurveyResultRepository with correct values', async () => {
     const { sut, loadSurveyResultRepositoryStub } = mockSut();
     const loadSurveyIdSpy = jest.spyOn(
       loadSurveyResultRepositoryStub,
       'loadBySurveyId',
     );
-    await sut.load('any_survey_id');
-    expect(loadSurveyIdSpy).toHaveBeenCalledWith('any_survey_id');
+    await sut.load('any_survey_id', 'account_id');
+    expect(loadSurveyIdSpy).toHaveBeenCalledWith('any_survey_id', 'account_id');
   });
 
   test('should call LoadSurveyByIdRepository if LoadSurveyResults returns null', async () => {
@@ -60,7 +60,7 @@ describe('DbLoadSurveyResult UseCase', () => {
       loadSurveyByIdRepositoryStub,
       'loadById',
     );
-    await sut.load('any_survey_id');
+    await sut.load('any_survey_id', 'account_id');
     expect(loadBySurveyIdSpy).toHaveBeenCalledWith('any_survey_id');
   });
 
@@ -70,13 +70,13 @@ describe('DbLoadSurveyResult UseCase', () => {
       .spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId')
       .mockReturnValueOnce(Promise.resolve(null));
 
-    const surveyResult = await sut.load('any_survey_id');
+    const surveyResult = await sut.load('any_survey_id', 'account_id');
     expect(surveyResult).toEqual(mockSurveyResult());
   });
 
   test('Should return an suvery result model on success', async () => {
     const { sut } = mockSut();
-    const surveyResult = await sut.load('any_survei_id');
+    const surveyResult = await sut.load('any_survei_id', 'account_id');
     expect(surveyResult).toEqual(mockSurveyResult());
   });
 
@@ -85,7 +85,7 @@ describe('DbLoadSurveyResult UseCase', () => {
     jest
       .spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId')
       .mockImplementationOnce(throwError);
-    const promise = sut.load('any_survey_id');
+    const promise = sut.load('any_survey_id', 'account_id');
     await expect(promise).rejects.toThrow();
   });
 });

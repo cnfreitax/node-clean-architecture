@@ -1,5 +1,5 @@
 import { SaveSurveyResultParams } from '../usecases/survey-result/save-survey-result';
-import { SurveryResultModel } from '../usecases/survey-result/surveys-result';
+import { SurveryResultModel } from '../models/surveys-result';
 
 export const mockSurveyResult = (): SurveryResultModel => ({
   surveyId: 'any_id',
@@ -10,6 +10,7 @@ export const mockSurveyResult = (): SurveryResultModel => ({
       image: 'any_image',
       count: 0,
       percent: 0,
+      isCurrentAccountAnswer: false,
     },
   ],
   date: new Date(),

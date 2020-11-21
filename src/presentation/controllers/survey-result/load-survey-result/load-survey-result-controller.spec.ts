@@ -33,6 +33,7 @@ const makeSut = (): SutTypes => {
 };
 
 const mockFakeRequest = (): HttpRequest => ({
+  accountId: 'any_account_id',
   params: {
     surveyId: 'any_id',
   },
@@ -71,11 +72,14 @@ describe('LoadSurveyResult Controller', () => {
     expect(httpResponse).toEqual(serverError(new Error()));
   });
 
-  test('Should call LoadSuveyResultBy with correct value ', async () => {
+  test('Should call LoadSuveyResultBy with correct values', async () => {
     const { sut, loadSurveyResultStub } = makeSut();
     const loadSurveyResultSpy = jest.spyOn(loadSurveyResultStub, 'load');
     await sut.handle(mockFakeRequest());
-    expect(loadSurveyResultSpy).toHaveBeenCalledWith('any_id');
+    expect(loadSurveyResultSpy).toHaveBeenCalledWith(
+      'any_id',
+      'any_account_id',
+    );
   });
 
   test('Should return 500 if LoadSuveyResultBy throws ', async () => {

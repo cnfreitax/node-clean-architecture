@@ -1,10 +1,10 @@
+import { SurveryResultModel } from '../../domain/models/surveys-result';
 import { mockSurveyResult } from '../../domain/test';
 import { LoadSurveyResult } from '../../domain/usecases/survey-result/load-survey-result';
-import { SurveryResultModel } from '../../domain/usecases/survey-result/surveys-result';
 
 export const mockLoadSurveyResult = (): LoadSurveyResult => {
   class LoadSurveyResultStub implements LoadSurveyResult {
-    async load(id: string): Promise<SurveryResultModel> {
+    async load(id: string, accountId: string): Promise<SurveryResultModel> {
       return Promise.resolve(mockSurveyResult());
     }
   }

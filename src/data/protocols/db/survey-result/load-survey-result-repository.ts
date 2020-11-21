@@ -1,5 +1,8 @@
-import { SurveryResultModel } from '../../../../domain/usecases/survey-result/surveys-result';
+import { SurveryResultModel } from '../../../../domain/models/surveys-result';
 
 export interface LoadSurveyResultRepository {
-  loadBySurveyId(surveyId: string): Promise<SurveryResultModel>;
+  loadBySurveyId(
+    surveyId: string,
+    accountId: string,
+  ): Promise<SurveryResultModel>;
 }

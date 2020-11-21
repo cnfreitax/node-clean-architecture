@@ -3,7 +3,7 @@ import {
   SaveSurveyResult,
   SaveSurveyResultParams,
 } from '../../domain/usecases/survey-result/save-survey-result';
-import { SurveryResultModel } from '../../domain/usecases/survey-result/surveys-result';
+import { SurveryResultModel } from '../../domain/models/surveys-result';
 
 export const mockSaveSurveyResult = (): SaveSurveyResult => {
   class SaveSurveyResultStub implements SaveSurveyResult {

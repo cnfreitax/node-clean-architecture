@@ -141,7 +141,7 @@ describe('loadSurvey()', () => {
         date: new Date(),
       },
     ]);
-    const surveyResult = await sut.loadBySurveyId(survey.id);
+    const surveyResult = await sut.loadBySurveyId(survey.id, account.id);
 
     expect(surveyResult).toBeTruthy();
     expect(surveyResult.surveyId).toEqual(survey.id);
@@ -150,12 +150,15 @@ describe('loadSurvey()', () => {
     expect(surveyResult.answers[1].count).toBe(2);
     expect(surveyResult.answers[1].percent).toBe(50);
     expect(surveyResult.answers[2].percent).toBe(0);
+    expect(surveyResult.answers[1].isCurrentAccountAnswer).toBe(true);
+    expect(surveyResult.answers[2].isCurrentAccountAnswer).toBe(false);
   });
 
   test('Should return null if no theres survey result', async () => {
+    const account = await makeAccount();
     const sut = makeSut();
     const survey = await makeSurvey();
-    const surveyResult = await sut.loadBySurveyId(survey.id);
+    const surveyResult = await sut.loadBySurveyId(survey.id, account.id);
 
     expect(surveyResult).toBeNull();
   });

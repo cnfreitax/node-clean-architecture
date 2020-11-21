@@ -1,5 +1,5 @@
 import { SurveryResultModel } from './surveys-result';
 
 export interface LoadSurveyResult {
-  load(surveyId: string): Promise<SurveryResultModel>;
+  load(surveyId: string, accountId: string): Promise<SurveryResultModel>;
 }

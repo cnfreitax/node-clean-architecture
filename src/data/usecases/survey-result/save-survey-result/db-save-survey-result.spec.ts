@@ -53,8 +53,9 @@ describe('DbSaveSurveyResult Usecase', () => {
       loadSurveyResultRepositoryStub,
       'loadBySurveyId',
     );
+    const { surveyId, accountId } = mockFakeSurveyResultDate();
     await sut.save(mockFakeSurveyResultDate());
-    expect(loadSpy).toHaveBeenCalledWith(mockFakeSurveyResultDate().surveyId);
+    expect(loadSpy).toHaveBeenCalledWith(surveyId, accountId);
   });
 
   test('Should return an suvery result on success', async () => {
